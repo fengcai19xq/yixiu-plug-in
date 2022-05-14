@@ -21,9 +21,10 @@
   "content_scripts": [
     {
       "js": ["lib/jquery-3.2.1.min.js","js/content.js"],
-      "matches": ["https://*.taobao.com/*"]// 被植入到页面，只在这些站点下 content_scripts会运行
+      "matches": ["https://*.taobao.com/*","https://guanjia.1688.com/*"]// 被植入到页面，只在这些站点下 content_scripts会运行
     }
   ],
+  //// 普通页面能够直接访问的插件资源列表，如果不设置是无法直接访问的
   "web_accessible_resources": [
 //    "page/newTask.html",
     "lib/*/*/*",
@@ -31,6 +32,7 @@
 "permissions": [
     "cookies",
 //    "webRequest",
+     "storage",
      "tabs",
     "http://*/*",
     "https://*/*"
