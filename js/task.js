@@ -9,3 +9,13 @@
     })
     console.log("end");
 })();
+
+function remoteGet(url){
+  $.get(url,function (data,status){
+       console.log("data:"+data+"\n status:"+status);
+  })
+}
+
+function remotePost(){
+
+}
