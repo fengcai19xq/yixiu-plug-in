@@ -73,8 +73,6 @@ function copyReplace(){
            })
            sleep(1000);
 
-           // targetObj.eq(ind).find('span').children('input').val(value);
-           // targetObj.eq(ind).find('span').children('span.next-select-inner').text(value);
        });
        // return false ;
         sleep(10000);
@@ -82,15 +80,6 @@ function copyReplace(){
     console.log("是否自动提交："+isAutoCommit);
 }
 
-function execClickMatch(){
-         new Promise((resolve) =>{
-                // copyReplace();
-                console.log("打开第"+index+"行弹窗 内sku复制完成")
-                resolve();
-            }).then(() =>{
-                $('.sku-match-container').find('.d-header').children('span')[0].click();
-                console.log("关闭第"+index+"行弹窗")
-            })}
 
 function matchSku(taobaoSku){
     var num = 0 ;

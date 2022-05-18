@@ -27,49 +27,34 @@ function copyReplace(){
     var indexNum = 0 ;
     $('div.sku-list').find('.sku-value-tr').each(function (index,element){
         console.log("第"+index+"循环");
-        indexNum=index+1 ;
         // console.log($(element));
-
+        // indexNum=indexNum+1 ;
         var offer1688Obj = $(element).find('.offer-sku-value-td').find('td');
         var tdlength = offer1688Obj.length;
-        // if (tdlength==1){
-        //     if (offer1688Obj.find('span').attr('value')){
-        //         console.log('1688已经有值，不需要匹配,'+offer1688Obj.find('span').attr('value'));
-        //     }else {
-        //         offer1688Obj.find('span').click();
-        //         var skutaobao = $(element).find('.item-sku-value').find('td');
-        //         var resNum = matchSku(skutaobao.text(),indexNum) ;
-        //         if (resNum == -1){//ui li 没有值，需要手动失去焦点
-        //             console.log("失去焦点");
-        //             // targetObj.eq(ind).find('span')[0].blur();
-        //             skutaobao.click();
-        //         }
-        //     }
-        // }else {
+        if (tdlength>2) return false;
           var taobaoTd = $(element).find('.item-sku-value').find('td') ;
             offer1688Obj.each(function (inde,elem){
                 if ($(elem).find('span').attr('value')){
                     console.log('1688已经有值，不需要匹配,'+$(elem).find('span').attr('value'));
                 }else {
-                    indexNum = indexNum+inde;
+                    indexNum =indexNum+1;
                     $(elem).find('span').click();
                     var skutaobao = taobaoTd.eq(tdlength-1-inde);
                     console.log(skutaobao.text());
                     var resNum = matchSku(skutaobao.text(),indexNum) ;
                     if (resNum == -1){//ui li 没有值，需要手动失去焦点
-                        console.log("失去焦点");
+                        // console.log("失去焦点");
                         // targetObj.eq(ind).find('span')[0].blur();
                         skutaobao.click();
-                        indexNum = indexNum-1;
-
+                        // indexNum = indexNum-1;
                     }
+                    console.log("indexNum:"+indexNum,"gateway-wrapper:"+$('div[data-tag=gateway-wrapper]').length);
                 }
                 // return false ;
             });
 
 
        // return false ;
-        console.log("indexNum:"+indexNum,"gateway-wrapper:"+$('div[data-tag=gateway-wrapper]').length);
     });
     console.log("替换完成");
 }
@@ -85,14 +70,15 @@ function execClickMatch(){
             })}
 
 function matchSku(taobaoSku,indexNum){
-    console.log("gateway-wrapper"+indexNum);
+    // console.log("gateway-wrapper"+indexNum);
     var num = 0 ;
     var leng = $('div[data-tag=gateway-wrapper]').eq(indexNum).find('ul.next-menu-content').children('li').length;
-    console.log("ul 长度"+leng);
+    // console.log("ul 长度"+leng);
     if (leng< 1) return -1 ;
     $('div[data-tag=gateway-wrapper]').eq(indexNum).find('ul.next-menu-content').children('li').each(function (ine,elem){
         // console.log($(elem).attr('value'));
-        if (taobaoSku == $(elem).attr('value')){
+        if ($(elem).attr('value') && ($(elem).attr('value').indexOf(taobaoSku)>0||
+            taobaoSku == $(elem).attr('value'))){
             console.log('taobaoSku:'+taobaoSku+',1688:'+$(elem).attr('value'));
 
             new Promise((resolve) =>{
@@ -101,7 +87,7 @@ function matchSku(taobaoSku,indexNum){
             }).then(() =>{
             })
 
-            sleep(500);
+            // sleep(100);
             num = 1;
             return false ;
         }

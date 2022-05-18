@@ -23,12 +23,6 @@
       "js": ["lib/jquery-3.2.1.min.js","js/content.js","js/function.js"],
       "matches": ["https://*.taobao.com/*","https://guanjia.1688.com/*"]// 被植入到页面，只在这些站点下 content_scripts会运行
     }
-//    {
-//      "js": ["lib/jquery-3.2.1.min.js","js/content1688.js","js/function.js"],
-//      "run_at": "document_start",
-//      "all_frames": false,
-//      "matches": ["*://*/*"]
-//    }
   ],
   //// 普通页面能够直接访问的插件资源列表，如果不设置是无法直接访问的
   "web_accessible_resources": [
