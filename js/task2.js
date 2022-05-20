@@ -25,6 +25,7 @@
 
 function copyReplace(){
     var indexNum = 0 ;
+    var reverseEach = 0 ;
     $('div.sku-list').find('.sku-value-tr').each(function (index,element){
         console.log("第"+index+"循环");
         // console.log($(element));
@@ -33,6 +34,21 @@ function copyReplace(){
         var tdlength = offer1688Obj.length;
         if (tdlength>2) return false;
           var taobaoTd = $(element).find('.item-sku-value').find('td') ;
+         //----- 判断1688 sku td 是否有关联顺序
+        if (reverseEach == 0){
+            offer1688Obj.eq(0).find('span').click();
+            indexNum =indexNum+1;
+            var leng = $('div[data-tag=gateway-wrapper]').eq(indexNum).find('ul.next-menu-content').children('li').length;
+            if (leng<1){// 代表需要倒着循环
+                reverseEach = 1;
+                offer1688Obj= offer1688Obj.get().reverse();
+            }
+            else{
+                reverseEach = 2 ;
+            }
+        }
+        console.log("reverseEach:"+reverseEach);
+        //----- end------------
             offer1688Obj.each(function (inde,elem){
                 if ($(elem).find('span').attr('value')){
                     console.log('1688已经有值，不需要匹配,'+$(elem).find('span').attr('value'));
@@ -40,9 +56,12 @@ function copyReplace(){
                     indexNum =indexNum+1;
                     $(elem).find('span').click();
                     var skutaobao = taobaoTd.eq(tdlength-1-inde);
+                    if (reverseEach==1){
+                        skutaobao = taobaoTd.eq(inde)
+                    }
                     console.log(skutaobao.text());
                     var resNum = matchSku(skutaobao.text(),indexNum) ;
-                    if (resNum == -1){//ui li 没有值，需要手动失去焦点
+                    if (resNum == -1){//ui li 没有值，需要手动失去焦点, 需要倒着循环
                         // console.log("失去焦点");
                         // targetObj.eq(ind).find('span')[0].blur();
                         skutaobao.click();
@@ -52,7 +71,6 @@ function copyReplace(){
                 }
                 // return false ;
             });
-
 
        // return false ;
     });
