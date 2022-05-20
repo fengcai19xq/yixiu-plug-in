@@ -1,4 +1,6 @@
 
+var isStop = false;
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
     if(request.todo=="showPageAction"){
