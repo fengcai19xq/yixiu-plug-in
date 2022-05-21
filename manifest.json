@@ -20,7 +20,8 @@
 
   "content_scripts": [
     {
-      "js": ["lib/jquery-3.2.1.min.js","js/content.js","js/function.js"],
+      "js": ["lib/jquery-3.2.1.min.js","js/content1688.js","js/function.js","js/remote.js"],
+      "run_at": "document_end",
       "matches": ["https://*.taobao.com/*","https://guanjia.1688.com/*"]// 被植入到页面，只在这些站点下 content_scripts会运行
     }
   ],
