@@ -8,8 +8,10 @@
 
         obj.click(function(){
             setTimeout(() => {
-                copyReplace();
                 createDiv();
+            },500);
+            setTimeout(() => {
+                copyReplace();
             },1000);
         });
 
@@ -25,10 +27,10 @@
 })();
 
 function createDiv(){
-    var para = document.createElement("h2");
-    var node = document.createTextNode("这是一个新的段落。");
-    para.appendChild(node);
-    console.log( $('div[data-tag=gateway-wrapper]').find('div.d-header'));
+    var para = document.createElement("h1");
+    var html = "<p id='execText' style='color: blue;font-size: x-large'>正在执行中，请勿关闭页面！！！</p>" +
+        "<p id='tipTextP' style='color: cadetblue;font-size: large;display: none'><span id='tipText'></span></p>";
+    para.innerHTML = html ;
     $('div[data-tag=gateway-wrapper]').find('div.d-header')[0].appendChild(para);
 }
 
@@ -36,7 +38,7 @@ function copyReplace(){
     var indexNum = 0 ;
     var reverseEach = 0 ;
     var isFirst = false ;
-    var inserText = $('div[data-tag=gateway-wrapper]').find('div.d-header').children('h2');
+    var matchSuccess=0;
     $('div.sku-list').find('.sku-value-tr').each(function (index,element){
         console.log("第"+index+"循环");
         // console.log($(element));
@@ -46,7 +48,7 @@ function copyReplace(){
         if (tdlength>2) return false;
           var taobaoTd = $(element).find('.item-sku-value').find('td') ;
          //----- 判断1688 sku td 是否有关联，需要倒着循环
-        if (reverseEach == 0){
+        if (tdlength==2 &&reverseEach == 0){
             offer1688Obj.eq(0).find('span').click();
             indexNum =indexNum+1;
             var leng = $('div[data-tag=gateway-wrapper]').eq(indexNum).find('ul.next-menu-content').children('li').length;
@@ -57,7 +59,7 @@ function copyReplace(){
             else{
                 reverseEach = 2 ;
             }
-            console.log("reverseEach:"+reverseEach);
+            // console.log("reverseEach:"+reverseEach);
         }
         if(reverseEach==1){
             offer1688Obj= offer1688Obj.get().reverse();
@@ -82,13 +84,15 @@ function copyReplace(){
                     if (reverseEach==1){
                         skutaobao = taobaoTd.eq(inde)
                     }
-                    console.log(skutaobao.text());
+                    // console.log(skutaobao.text());
                     var resNum = matchSku(skutaobao.text(),indexNum,isFirst) ;
                     if (resNum == -1){//ui li 没有值，需要手动失去焦点, 需要倒着循环
                         // console.log("失去焦点");
                         // targetObj.eq(ind).find('span')[0].blur();
                         // skutaobao.click();
                         // indexNum = indexNum-1;
+                    }else if (resNum==1){
+                        matchSuccess=matchSuccess+1;
                     }
                     // console.log($(elem).find('span').attr("value"));
                     // console.log($(elem).find('span').children('input').attr("value"));
@@ -99,13 +103,16 @@ function copyReplace(){
                     }else {
                         console.log("indexNum:"+indexNum,"gateway-wrapper:"+$('div[data-tag=gateway-wrapper]').length);
                     }
-                    inserText.append("执行"+indexNum);
+                    $('#tipText').html("共执行："+indexNum+"，匹配成功："+matchSuccess+"条");
+                    $('#tipTextP').css('display','');
                 }
                 // return false ;
             });
 
+        // sleep(100);
        // return false ;
     });
+    $('#execText').text("执行完成，请点击确定按钮！！！");
     console.log("替换完成");
 }
 
@@ -136,7 +143,7 @@ function matchSku(taobaoSku,indexNum,isFirst){
         value1688 = $(elem).attr('value');
         if (value1688&& (value1688.indexOf(taobaoSku.replace('cm',''))>0||
             taobaoSku ==value1688||value1688==taobaoSku.replace('cm',''))){
-            console.log('taobaoSku:'+taobaoSku+',1688:'+value1688);
+            // console.log('taobaoSku:'+taobaoSku+',1688:'+value1688);
 
             new Promise((resolve) =>{
                 $(elem)[0].click();
