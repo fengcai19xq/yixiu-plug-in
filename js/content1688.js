@@ -1,7 +1,7 @@
 chrome.runtime.sendMessage({todo:"showPageAction"});
 
 var isStop = false ;
-var url="http://localhost:8299/plug/bill";
+var url="http://rbm.vin:8299/plug/bill?version=1.0&&";
 (function() {
 
 
@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
                     }
                     console.log(validate);
                     if (!validate){
-                        var ret = remoteGet(url+"?accountId="+accountId);
+                        var ret = remoteGet(url+"accountId="+accountId);
                         console.log(ret);
                         if (ret == true){
                             //请求成功后保存token，有效期为一天
