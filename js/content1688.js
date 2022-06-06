@@ -1,7 +1,7 @@
 chrome.runtime.sendMessage({todo:"showPageAction"});
 
 var isStop = false ;
-var url="http://rbm.vin:8299/plug/bill?version=1.0&&";
+var url="https://rbm.vin:1443/plug/bill?version=1.0&&";
 (function() {
 
 
@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
                     }
                     console.log(validate);
                     if (!validate){
-                        var ret = remoteGet(url+"accountId="+accountId);
+                        var ret = remoteGet(url+"accountid="+accountId);
                         console.log(ret);
                         if (ret == true){
                             //请求成功后保存token，有效期为一天
@@ -68,6 +68,16 @@ function bindDefinedEvent(){
             setTimeout(() => {
                 copyReplace();
             },1000);
+        });
+    });
+    $('.next-pagination-pages').children('button').each(function (index,element){
+        $(element).click(function (){
+            isStop=false ;
+        });
+    });
+    $('.next-pagination-list').children('button').each( function (index,element){
+        $(element).click(function (){
+            isStop=false ;
         });
     });
     isStop=true ;

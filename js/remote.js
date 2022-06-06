@@ -56,6 +56,9 @@ function remoteGet(url){
             }else if (data.code == 1001){
                 ret= "额度不足，请联系管理员充值!"
             }else {
+                if(data.message){
+                    ret= data.message+"（"+data.code+"）";
+                }else
                 ret= "服务异常，请联系管理员（"+data.code+"）";
             }
         },
